@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+.container-custom {
+	padding: 12rem;
+	margin-top: 3rem !important;
+	border-radius: 10px;
+	min-height: 60vh;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: purple;
+    background-color: #21214F;
+}
+h5 {
+	font-family: SunSans-Regular, sans-serif;
+	font-weight: bold;
+	color: black;
+	font-size: 24px;
+}
+span {
+	font-family: SunSans-Regular, sans-serif;
+	font-weight: bold;
+	color: black;
+	font-size: 18px;
+}
+.link {
+	margin-top: 1rem !important;
+	text-decoration: none;
+	font-weight: 200;
+	color: black;
+	font-size: 14px;
+}
+.card {
+	height: auto;
+	font-size: 18px;
+}
+.card > img {
+	float: right;
+}
+
+.form-card {
+	margin-bottom: 5rem !important;
+	outline: none !important;
+	border-radius: 5px;
+	font-size: 18px;
+}
+.btn {
+	text-align: center;
+	width: 50%;
+}
+.form-group > input {
+	border-radius: 10px;
+	border: 1px solid #BEBEBF;
+}
+.img-fluid {
+	width: 100%;
+	height: auto;
+}
