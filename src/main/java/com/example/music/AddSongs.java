@@ -1,8 +1,8 @@
 package com.example.music;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -27,7 +27,13 @@ public class AddSongs extends HttpServlet {
 		if(session!=null) {
 			String email = (String) session.getAttribute("email");
 			String firstname = (String) session.getAttribute("firstname");
+			String uploadDirectory = "D://SumogoInfotech//SongSail//Songs";
+			File uploadDir = new File(uploadDirectory);
+			if(!uploadDir.exists()) {
+				uploadDir.mkdirs();
+			}
 			try {
+				Part filePart = request.getPart("song");
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3309/music", "root", "Sarvesh@2001");
 				String songname = request.getParameter("songname");
@@ -44,19 +50,21 @@ public class AddSongs extends HttpServlet {
 					response.sendRedirect("error.jsp?error=Inavlid file type. Only mp3 allowed");
 					return;
 				}
-				String sql = "INSERT INTO songs (songname, album, singer, lyrics, song) VALUES(?, ?, ?, ?, ?)";
+
+				String fileName = extractFileName(filePart);
+				InputStream inputstream = filePart.getInputStream();
+				Files.copy(inputstream, new File(uploadDirectory + File.separator + fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+				String sql = "INSERT INTO songs (songname, album, singer, lyrics, file_path) VALUES(?, ?, ?, ?, ?)";
 				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setString(1, songname);
 				ps.setString(2, album);
 				ps.setString(3, singer);
 				ps.setString(4, lyrics);
+				ps.setString(5, uploadDirectory +"//"+ fileName);
 				
-				//Extracting MP3 File data
-				InputStream inputStream = null;
-				inputStream = song.getInputStream();
-				ps.setBlob(5, inputStream);
-				//executing update query 
-				int rowsInserted = ps.executeUpdate();
+				int rowsInserted = ps.executeUpdate(); 
+				
 				if(rowsInserted>0) {
 					out.println("<h1>Data Inserted");
 				}
@@ -65,6 +73,16 @@ public class AddSongs extends HttpServlet {
 			}
 		}
 		
+	}
+	private String extractFileName(Part part) {
+		String contentDisp = part.getHeader("content-disposition");
+		String[] items = contentDisp.split(";");
+		for(String s :items) {
+			if(s.trim().startsWith("filename")) {
+				return s.substring(s.indexOf("=")+2, s.length()-1);
+			}
+		}
+		return "";
 	}
 
 }

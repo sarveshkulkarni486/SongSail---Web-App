@@ -3,26 +3,18 @@ package com.example.music;
 import java.io.InputStream;
 
 public class Song {
-	private InputStream songInputStream;
 	private String songName;
-	private String artist; 
+	private String singer;
 	private String album;
 	private String lyrics;
+	private String filePath;
 	
-	public Song(InputStream songInputStream, String songName, String artist, String album, String lyrics) {
-		this.songInputStream = songInputStream;
+	public Song(String songName, String singer, String album, String lyrics, String filePath) {
 		this.songName = songName;
-		this.artist = artist;
+		this.singer = singer;
 		this.album = album;
 		this.lyrics = lyrics;
-	}
-	
-	public InputStream getSongInputStream() {
-		return songInputStream;
-	}
-
-	public void setSongInputStream(InputStream songInputStream) {
-		this.songInputStream = songInputStream;
+		this.filePath = filePath;
 	}
 
 	public String getSongName() {
@@ -33,12 +25,12 @@ public class Song {
 		this.songName = songName;
 	}
 
-	public String getArtist() {
-		return artist;
+	public String getSinger() {
+		return singer;
 	}
 
-	public void setArtist(String artist) {
-		this.artist = artist;
+	public void setSinger(String singer) {
+		this.singer = singer;
 	}
 
 	public String getAlbum() {
@@ -56,6 +48,13 @@ public class Song {
 	public void setLyrics(String lyrics) {
 		this.lyrics = lyrics;
 	}
-	
 
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	
 }
