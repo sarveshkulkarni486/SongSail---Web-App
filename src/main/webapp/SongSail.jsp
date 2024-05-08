@@ -176,9 +176,10 @@
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery("SELECT songname, singer, album, lyrics, file_path FROM songs");
                     
-                    
+                    int songCount = 0;
                     // Display Data
                     while (rs.next()) {
+                    	songCount++;
                     	String filePath = rs.getString("file_path");
                     	String encodedAudio = null;
                     	if(filePath!=null){
@@ -195,7 +196,7 @@
         <br/>
        <div class="music-card">
           <div class="play-icon">
-             <audio controls> 
+             <audio id="audio<%= songCount %>" controls> 
                  <source src="data:audio/mpeg;base64, <%= encodedAudio %>" type="audio/mpeg">
              </audio>
           </div>
@@ -212,6 +213,19 @@
                 	e.printStackTrace();
                 }
        %>
+       <script>
+          const audioElements = document.querySelectorAll('audio');
+          
+          audioElements.forEach(audio => {
+        	  audio.addEventListener('play', function(){
+        		  audioElements.forEach(otherAudio => {
+        			  if(otherAudio !== audio && !otherAudio.paused){
+        				  otherAudio.pause();
+        			  }
+        		  });
+        	  });
+          });
+       </script>
     </div>
 </body>
 </html>
