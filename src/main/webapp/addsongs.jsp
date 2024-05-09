@@ -53,7 +53,7 @@
 								<input type="text" id="songname" name="songname" placeholder="Song name">
 								<input type="text" id="album" name="album" placeholder="Album name"> 
 								<input type="text" id="singer" name="singer" placeholder="Singer name">
-								<textarea id="lyrics" name="lyrics" placeholder="Lyrics"></textarea>
+								<textarea id="lyrics" name="lyrics" placeholder="Lyrics" maxlength="5000"></textarea>
 								<br/>
 								<input type="file" id="music" name="song" placeholder="upload music">
 								<br/>

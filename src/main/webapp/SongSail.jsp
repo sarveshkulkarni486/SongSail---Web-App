@@ -37,6 +37,9 @@
     rel='stylesheet'>
 <script src="https://kit.fontawesome.com/2dd5f1c1c7.js"
     crossorigin="anonymous"></script>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 
 <!-- Manual css and js file -->
@@ -174,11 +177,12 @@
                     
                     // Retrieve Data
                     Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT songname, singer, album, lyrics, file_path FROM songs");
+                    ResultSet rs = stmt.executeQuery("SELECT song_id, songname, singer, album, lyrics, file_path FROM songs");
                     
                     int songCount = 0;
                     // Display Data
                     while (rs.next()) {
+                    	String lyrics = rs.getString("lyrics");
                     	songCount++;
                     	String filePath = rs.getString("file_path");
                     	String encodedAudio = null;
@@ -196,7 +200,7 @@
         <br/>
        <div class="music-card">
           <div class="play-icon">
-             <audio id="audio<%= songCount %>" controls> 
+             <audio id="audio<%= songCount %>" preload="none" controls> 
                  <source src="data:audio/mpeg;base64, <%= encodedAudio %>" type="audio/mpeg">
              </audio>
           </div>
@@ -204,9 +208,27 @@
              <div class="song"><%= rs.getString("songname") %></div>
              <div class="artist"><%= rs.getString("singer") %></div>
              <div class="album"><%= rs.getString("album") %></div>
-             <div class="album"><%= rs.getString("lyrics") %></div>
              <div class="song-time"></div>
           </div>
+          <i class="fa-regular fa-heart icon" onclick="addTo('<%= rs.getString("song_id") %>')"></i>
+          <script>
+             function addTo(songId){  
+     		    $.ajax({
+     			  url: '/AddToFavoriteServlet',
+     			  method: 'POST',
+     			  data: {songId: songId 
+     			  },
+     			  success: function(response) {
+     				  alert('Song added to favorites!');
+     			  },
+     			  error: function(xhr, status, error){
+     				  console.error('Error adding song to favorites: ', error);
+     			  }
+     		  });
+             }
+       </script>
+
+             
        </div>
        <% }
                 } catch(Exception e){
@@ -214,8 +236,7 @@
                 }
        %>
        <script>
-          const audioElements = document.querySelectorAll('audio');
-          
+       const audioElements = document.querySelectorAll('audio');
           audioElements.forEach(audio => {
         	  audio.addEventListener('play', function(){
         		  audioElements.forEach(otherAudio => {
@@ -226,6 +247,7 @@
         	  });
           });
        </script>
+       
     </div>
 </body>
 </html>
