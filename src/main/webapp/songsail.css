@@ -58,16 +58,14 @@
 .lyrics .highlighted {
     background-color: yellow;
 }
-.icon {
-	margin-right: 5rem !important;
-}
 
-.fa-heart {
+
+.icon {
 	color: black;
 	position: relative;
 }
 
-.fa-heart::after {
+.icon::after {
   content: "Add to Favorites"; /* Text content */
   position: absolute; /* Position absolutely */
   top: 100%; /* Position it below the heart icon */
@@ -85,6 +83,6 @@
 }
 
 /* Show text on hover */
-.fa-heart:hover::after {
+.icon:hover::after {
   opacity: 1; /* Show text on hover */
 }

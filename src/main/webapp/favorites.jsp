@@ -1,8 +1,10 @@
-<%@page import="java.sql.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.example.music.Song" %>
-<%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="javax.naming.*" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="com.example.music.Song" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.nio.*" %>
 <%@ page import="java.util.Base64" %>
@@ -14,12 +16,9 @@
        return;
    }
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Song Sail</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -49,7 +48,7 @@
 
 </head>
 <body>
-    <!-- top navbar -->
+<!-- top navbar -->
     <nav class=" topnavbar navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">MP3Player</a>
@@ -101,7 +100,7 @@
             <!-- i indicates box icons box-icons is library for icons -->
             <ul>
                 Menu
-                <li href="#" class="nav-link activites"><i
+                <li href="SongSail.jsp" class="nav-link activites"><i
                     class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></li>
                 <li href="discover.jsp" class="nav-link activites"><i
                     class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span>
@@ -172,18 +171,19 @@
        </div>
        <% 
                 try {
+                	String userEmail = (String) session.getAttribute("email");
                     // Database Connectivity
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3309/music", "root", "Sarvesh@2001");
-                    
-                    // Retrieve Data
+                    String query = "SELECT songs.songname, songs.album, songs.singer, songs.lyrics, songs.file_path " +
+                            "FROM songs " +
+                            "INNER JOIN favorites f ON songs.song_id = f.song_id " +
+                            "WHERE f.userEmail = '" + userEmail +"'";
+                 // Retrieve Data
                     Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT song_id, songname, singer, album, lyrics, file_path FROM songs");
-                    
+                    ResultSet rs = stmt.executeQuery(query);
                     int songCount = 0;
-                    // Display Data
-                    while (rs.next()) {
-                    	String lyrics = rs.getString("lyrics");
+                    while(rs.next()){
                     	songCount++;
                     	String filePath = rs.getString("file_path");
                     	String encodedAudio = null;
@@ -197,8 +197,8 @@
                     	} else {
                     		out.println("File not found");
                     	}
-        %>
-        <br/>
+          %>
+          <br/>
        <div class="music-card">
           <div class="play-icon">
              <audio id="audio<%= songCount %>" preload="none" controls> 
@@ -211,31 +211,13 @@
              <div class="album"><%= rs.getString("album") %></div>
              <div class="song-time"></div>
           </div>
-          <i class="fa-regular fa-heart icon" onclick="addTo('<%= rs.getString("song_id") %>')"></i>
-          <script>
-             function addTo(songId){
-            	 var userEmail = '<%= session.getAttribute("email") %>';
-     		    $.ajax({
-     			  url: "${pageContext.request.contextPath}/AddToFavoriteServlet",
-     			  method: 'POST',
-     			  data: {
-     				  songId: songId,
-     				  userEmail: userEmail
-     			  },
-     			  success: function(response) {
-     				  alert('Song added to favorites!');
-     			  },
-     			  error: function(xhr, status, error){
-     				  console.error('Error adding song to favorites: ', error);
-     			  }
-     		  });
-             }
-       </script>
-
-             
-       </div>
-       <% }
-                } catch(Exception e){
+         </div>
+         <% } 
+                }
+       catch (SQLIntegrityConstraintViolationException e) {
+    	   e.printStackTrace();
+       }
+       catch(Exception e){
                 	e.printStackTrace();
                 }
        %>
@@ -251,7 +233,6 @@
         	  });
           });
        </script>
-       
-    </div>
+      </div>
 </body>
 </html>

@@ -18,13 +18,15 @@ public class AddToFavoriteServlet extends HttpServlet {
 	    response.setHeader("Access-Control-Allow-Methods", "POST");
 	    response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		String song_id = request.getParameter("songId");
+		String userEmail = request.getParameter("userEmail");
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3309/music", "root", "Sarvesh@2001");
-			String query = "INSERT INTO favorites (song_id) VALUES(?)";
+			String query = "INSERT INTO favorites (song_id, userEmail) VALUES(?, ?)";
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, song_id);
+			ps.setString(2, userEmail);
 			int rowsInserted = ps.executeUpdate();
 			if(rowsInserted > 0) {
 				response.getWriter().write("song added to favorites!");
