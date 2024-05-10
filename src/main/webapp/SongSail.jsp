@@ -214,7 +214,7 @@
           <script>
              function addTo(songId){  
      		    $.ajax({
-     			  url: '/AddToFavoriteServlet',
+     			  url: "${pageContext.request.contextPath}/AddToFavoriteServlet",
      			  method: 'POST',
      			  data: {songId: songId 
      			  },
