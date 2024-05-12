@@ -39,7 +39,11 @@
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
+<style>
+    .searchResults {
+        margin-left: 15rem;
+    }
+</style>
 
 <!-- Manual css and js file -->
 <link rel="stylesheet" href="style.css" />
@@ -161,10 +165,34 @@
         <div class="search-card">
             <div class="card-body">
                 <i class="fa fa-search"></i>
-                <input type="text" class="search-input" placeholder="Search" />
+                <input type="text" class="search-input" id="searchInput" placeholder="Search" />
+                <button onclick="search()">Search</button>
             </div>
         </div>
     </div>
+    <div id="searchResults"></div>
+    <script>
+    function search() {
+        var query = document.getElementById('searchInput').value;
+        if (query.trim() === '') {
+            alert('Please enter a search query.');
+            return;
+        }
+
+        // AJAX call to the Servlet
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'search.jsp');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                document.getElementById('searchResults').innerHTML = xhr.responseText;
+            } else {
+                alert('Error fetching search results. Please try again.');
+            }
+        };
+        xhr.send('query=' + encodeURIComponent(query));
+    }
+    </script>
     <div class="container mt-4 song-container">
        <div class="">
            <h1 class="">Songs</h1>
