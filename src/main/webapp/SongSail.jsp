@@ -46,6 +46,7 @@
 <link rel="stylesheet" href="style.css" />
 <script src="script.js"></script>
 <link rel="stylesheet" href="songsail.css" />
+<link rel="stylesheet" href="favorite.css" />
 
 </head>
 <body>

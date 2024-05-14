@@ -36,10 +36,20 @@
 }
 @media (max-width: 720px) {
 	.song-container {
-	   margin-left: 8rem !important;
+	   margin-left: 0rem !important;
 	}
 	.music-card {
-	   padding: 10px !important;
+	   padding: 0px !important;
+	}
+	
+	.card {
+	   margin-left: -5rem !important;
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	}
+	.card1 {
+	   margin-left: 0rem !important;
 	}
 }
 .lyrics-container {
@@ -86,3 +96,13 @@
 .icon:hover::after {
   opacity: 1; /* Show text on hover */
 }
+@media (max-width: 720px){
+	.results {
+	   margin-left: 1rem !important;
+	}
+	.song-container {
+	    margin-left: 0rem !important;
+	    width: 150%;
+	}
+}
+

@@ -45,6 +45,7 @@
 <link rel="stylesheet" href="style.css" />
 <script src="script.js"></script>
 <link rel="stylesheet" href="songsail.css" />
+<link rel="stylesheet" href="favorite.css"/>
 
 </head>
 <body>
@@ -158,13 +159,43 @@
         </div>
     </div>
     <div class="container mt-4 card-container">
-        <div class="search-card">
-            <div class="card-body">
-                <i class="fa fa-search"></i>
-                <input type="text" class="search-input" placeholder="Search" />
-            </div>
+    <div class="search-card">
+        <div class="card-body">
+            <i class="fa fa-search"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search" />
+            <button onclick="search()" class="btn btn-primary">Search</button>
         </div>
     </div>
+</div>
+
+<div id="searchResults" class="results"></div>
+
+<!-- Add any necessary JavaScript files or scripts here -->
+
+<script>
+    function search() {
+        var query = document.getElementById('searchInput').value;
+        if (query.trim() === '') {
+            alert('Please enter a search query.');
+            return;
+        }
+
+        // AJAX call to the JSP page
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'search.jsp');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                document.getElementById('searchResults').innerHTML = xhr.responseText;
+            } else {
+                alert('Error fetching search results. Please try again.');
+            }
+        };
+        xhr.send('query=' + encodeURIComponent(query));
+    }
+</script>
+    
+    
     <div class="container mt-4 song-container">
        <div class="">
            <h1 class="">Songs</h1>
