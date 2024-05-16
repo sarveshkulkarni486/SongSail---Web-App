@@ -107,8 +107,8 @@
                 <li href="discover.jsp" class="nav-link activites"><i
                     class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span>
                 </li>
-                <li href="trending.jsp" class="nav-link activites"><i
-                    class="fa-solid fa-arrow-trend-up"></i> <span class="mx-2">Trending</span>
+                <li class="nav-link activites"><a href="Trending.jsp"><i
+                    class="fa-solid fa-arrow-trend-up"></i> <span class="mx-2">Trending</span></a>
                 </li>
             </ul>
             </li>

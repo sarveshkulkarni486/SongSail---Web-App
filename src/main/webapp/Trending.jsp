@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-<%@ page import="java.util.*" %>
-<%@ page import="javax.naming.*" %>
-<%@ page import="java.sql.*" %>
 <%@ page import="com.example.music.Song" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.nio.*" %>
 <%@ page import="java.util.Base64" %>
@@ -19,6 +17,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>Song Sail</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -45,7 +45,17 @@
 <link rel="stylesheet" href="style.css" />
 <script src="script.js"></script>
 <link rel="stylesheet" href="songsail.css" />
-<link rel="stylesheet" href="favorite.css"/>
+<link rel="stylesheet" href="favorite.css" />
+<style type="text/css">
+.music-card {
+width: 60%;
+margin-left: 20rem !important;
+padding-left: 2rem !important;
+}
+.results {
+margin-left: 9rem !important;
+}
+</style>
 
 </head>
 <body>
@@ -101,8 +111,8 @@
             <!-- i indicates box icons box-icons is library for icons -->
             <ul>
                 Menu
-                <li class="nav-link activites"><a href="SongSail.jsp"><i
-                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></a></li>
+                <li href="#" class="nav-link activites"><i
+                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></li>
                 <li href="discover.jsp" class="nav-link activites"><i
                     class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span>
                 </li>
@@ -130,35 +140,6 @@
             </ul>
     </div>
     <div class="container mt-4 card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-content">
-                    <img src="images/playlist.jpg" class="card-img" alt="Image">
-                    <div class="text-content">
-                        <h5 class="card-title">Playlist</h5>
-                        <span class="card-text">34 songs</span> <span class="card-text">12
-                            Artists</span>
-                    </div>
-                    <a href="playlist.jsp" class="btn btn-login submits">Listen</a>
-                </div>
-            </div>
-        </div>
-        <div class="card card1">
-            <div class="card-body">
-                <div class="card-content">
-                    <div class="text-content">
-                        <a href="addsongs.jsp" style="text-decoration: none;">
-                        <i class="fa-solid fa-plus"></i>
-                        <h5 class="card-title" style="margin-top: 1rem; text-align: center !important;">Add more
-                            songs</h5>
-                        </a>
-                        <span class="card-text"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container mt-4 card-container">
     <div class="search-card">
         <div class="card-body">
             <i class="fa fa-search"></i>
@@ -169,6 +150,7 @@
 </div>
 
 <div id="searchResults" class="results"></div>
+<br/>
 
 <!-- Add any necessary JavaScript files or scripts here -->
 
@@ -196,25 +178,20 @@
 </script>
     
     
-    <div class="container mt-4 song-container">
-       <div class="">
-           <h1 class="">Songs</h1>
-       </div>
-       <% 
+    <% 
                 try {
-                	String userEmail = (String) session.getAttribute("email");
                     // Database Connectivity
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3309/music", "root", "Sarvesh@2001");
-                    String query = "SELECT songs.songname, songs.album, songs.singer, songs.lyrics, songs.file_path " +
-                            "FROM songs " +
-                            "INNER JOIN favorites f ON songs.song_id = f.song_id " +
-                            "WHERE f.userEmail = '" + userEmail +"'";
-                 // Retrieve Data
+                    
+                    // Retrieve Data
                     Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query);
+                    ResultSet rs = stmt.executeQuery("SELECT song_id, songname, singer, album, lyrics, file_path FROM songs ORDER BY inserted_at desc");
+                    
                     int songCount = 0;
-                    while(rs.next()){
+                    // Display Data
+                    while (rs.next()) {
+                    	String lyrics = rs.getString("lyrics");
                     	songCount++;
                     	String filePath = rs.getString("file_path");
                     	String encodedAudio = null;
@@ -228,8 +205,8 @@
                     	} else {
                     		out.println("File not found");
                     	}
-          %>
-          <br/>
+        %>        
+        <br />
        <div class="music-card">
           <div class="play-icon">
              <audio id="audio<%= songCount %>" preload="none" controls> 
@@ -242,13 +219,31 @@
              <div class="album"><%= rs.getString("album") %></div>
              <div class="song-time"></div>
           </div>
-         </div>
-         <% } 
-                }
-       catch (SQLIntegrityConstraintViolationException e) {
-    	   e.printStackTrace();
-       }
-       catch(Exception e){
+          <i class="fa-regular fa-heart icon" onclick="addTo('<%= rs.getString("song_id") %>')"></i>
+          <script>
+             function addTo(songId){
+            	 var userEmail = '<%= session.getAttribute("email") %>';
+     		    $.ajax({
+     			  url: "${pageContext.request.contextPath}/AddToFavoriteServlet",
+     			  method: 'POST',
+     			  data: {
+     				  songId: songId,
+     				  userEmail: userEmail
+     			  },
+     			  success: function(response) {
+     				  alert('Song added to favorites!');
+     			  },
+     			  error: function(xhr, status, error){
+     				  console.error('Error adding song to favorites: ', error);
+     			  }
+     		  });
+             }
+       </script>
+
+             
+       </div>
+       <% }
+                } catch(Exception e){
                 	e.printStackTrace();
                 }
        %>
@@ -264,6 +259,9 @@
         	  });
           });
        </script>
-      </div>
+       
+    </div>
+    
+
 </body>
 </html>
