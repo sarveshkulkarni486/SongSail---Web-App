@@ -1,5 +1,5 @@
-<%@page import="java.sql.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="com.example.music.Song" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.*" %>
@@ -14,12 +14,11 @@
        return;
    }
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Song Sail</title>
+<title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -46,11 +45,10 @@
 <link rel="stylesheet" href="style.css" />
 <script src="script.js"></script>
 <link rel="stylesheet" href="songsail.css" />
-<link rel="stylesheet" href="favorite.css" />
-
+<link rel="stylesheet" href="accounts.css"/>
 </head>
 <body>
-    <!-- top navbar -->
+<!-- top navbar -->
     <nav class=" topnavbar navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">MP3Player</a>
@@ -102,9 +100,9 @@
             <!-- i indicates box icons box-icons is library for icons -->
             <ul>
                 Menu
-                <li href="#" class="nav-link activites"><i
-                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></li>
-                <li href="discover.jsp" class="nav-link activites"><a href="Discover.jsp"><i
+                <li class="nav-link activites"><a href="SongSail.jsp"><i
+                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></a></li>
+                <li class="nav-link activites"><a href="#"><i
                     class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span></a>
                 </li>
                 <li class="nav-link activites"><a href="Trending.jsp"><i
@@ -128,129 +126,28 @@
                     class='bx bx-cog'></i> <span class="mx-2">Settings</span></li>
             </ul>
     </div>
-    <div class="container mt-4 card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-content">
-                    <img src="images/playlist.jpg" class="card-img" alt="Image">
-                    <div class="text-content">
-                        <h5 class="card-title">Playlist</h5>
-                        <span class="card-text">34 songs</span> <span class="card-text">12
-                            Artists</span>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-horizontal">
+                    <img src="#" alt="profile" class="img-fluid card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">Card Title</h5>
+                        <p class="card-text">Card description goes here.</p>
                     </div>
-                    <a href="playlist.jsp" class="btn btn-login submits">Listen</a>
                 </div>
             </div>
-        </div>
-        <div class="card card1">
-            <div class="card-body">
-                <div class="card-content">
-                    <div class="text-content">
-                        <a href="addsongs.jsp" style="text-decoration: none;">
-                        <i class="fa-solid fa-plus"></i>
-                        <h5 class="card-title" style="margin-top: 1rem; text-align: center !important;">Add more
-                            songs</h5>
-                        </a>
-                        <span class="card-text"></span>
-                    </div>
+            <div class="col-lg-6">
+                <div class="form-container">
+                    <form>
+                        <div class="form-group">
+                            
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container mt-4 card-container">
-        <div class="search-card">
-            <div class="card-body">
-                <i class="fa fa-search"></i>
-                <input type="text" class="search-input" placeholder="Search" />
-            </div>
-        </div>
-    </div>
-    <div class="container mt-4 song-container">
-       <div class="">
-           <h1 class="">Songs</h1>
-       </div>
-       <% 
-                try {
-                    // Database Connectivity
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3309/music", "root", "Sarvesh@2001");
-                    
-                    // Retrieve Data
-                    Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT song_id, songname, singer, album, lyrics, file_path FROM songs");
-                    
-                    int songCount = 0;
-                    // Display Data
-                    while (rs.next()) {
-                    	String lyrics = rs.getString("lyrics");
-                    	songCount++;
-                    	String filePath = rs.getString("file_path");
-                    	String encodedAudio = null;
-                    	if(filePath!=null){
-                    		File file = new File(filePath);
-                    		FileInputStream fis = new FileInputStream(file);
-                    		byte[] audioBytes = new byte[(int) file.length()];
-                    		fis.read(audioBytes);
-                    		fis.close();
-                    		encodedAudio = Base64.getEncoder().encodeToString(audioBytes);
-                    	} else {
-                    		out.println("File not found");
-                    	}
-        %>
-        <br/>
-       <div class="music-card">
-          <div class="play-icon">
-             <audio id="audio<%= songCount %>" preload="none" controls> 
-                 <source src="data:audio/mpeg;base64, <%= encodedAudio %>" type="audio/mpeg">
-             </audio>
-          </div>
-          <div class="music-details">
-             <div class="song"><%= rs.getString("songname") %></div>
-             <div class="artist"><%= rs.getString("singer") %></div>
-             <div class="album"><%= rs.getString("album") %></div>
-             <div class="song-time"></div>
-          </div>
-          <i class="fa-regular fa-heart icon" onclick="addTo('<%= rs.getString("song_id") %>')"></i>
-          <script>
-             function addTo(songId){
-            	 var userEmail = '<%= session.getAttribute("email") %>';
-     		    $.ajax({
-     			  url: "${pageContext.request.contextPath}/AddToFavoriteServlet",
-     			  method: 'POST',
-     			  data: {
-     				  songId: songId,
-     				  userEmail: userEmail
-     			  },
-     			  success: function(response) {
-     				  alert('Song added to favorites!');
-     			  },
-     			  error: function(xhr, status, error){
-     				  console.error('Error adding song to favorites: ', error);
-     			  }
-     		  });
-             }
-       </script>
-
-             
-       </div>
-       <% }
-                } catch(Exception e){
-                	e.printStackTrace();
-                }
-       %>
-       <script>
-       const audioElements = document.querySelectorAll('audio');
-          audioElements.forEach(audio => {
-        	  audio.addEventListener('play', function(){
-        		  audioElements.forEach(otherAudio => {
-        			  if(otherAudio !== audio && !otherAudio.paused){
-        				  otherAudio.pause();
-        			  }
-        		  });
-        	  });
-          });
-       </script>
-       
-    </div>
+    
 </body>
 </html>

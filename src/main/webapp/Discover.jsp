@@ -1,5 +1,5 @@
-<%@page import="java.sql.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="com.example.music.Song" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.*" %>
@@ -14,12 +14,11 @@
        return;
    }
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Song Sail</title>
+<title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -47,10 +46,19 @@
 <script src="script.js"></script>
 <link rel="stylesheet" href="songsail.css" />
 <link rel="stylesheet" href="favorite.css" />
-
+<style type="text/css">
+.music-card {
+width: 60%;
+margin-left: 20rem !important;
+padding-left: 2rem !important;
+}
+.results {
+margin-left: 9rem !important;
+}
+</style>
 </head>
 <body>
-    <!-- top navbar -->
+<!-- top navbar -->
     <nav class=" topnavbar navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">MP3Player</a>
@@ -102,9 +110,9 @@
             <!-- i indicates box icons box-icons is library for icons -->
             <ul>
                 Menu
-                <li href="#" class="nav-link activites"><i
-                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></li>
-                <li href="discover.jsp" class="nav-link activites"><a href="Discover.jsp"><i
+                <li class="nav-link activites"><a href="SongSail.jsp"><i
+                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></a></li>
+                <li class="nav-link activites"><a href="#"><i
                     class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span></a>
                 </li>
                 <li class="nav-link activites"><a href="Trending.jsp"><i
@@ -122,54 +130,52 @@
                     class="fa-regular fa-hearts"></i><span class="mx-2">Favourite</span>
                     </a>
                 </li>
-                <li class="nav-link activites"><a href="Account.jsp"><i
+                <li class="nav-link activites"><a href="account.jsp"><i
                     class="fa-regular fa-user"></i> <span class="mx-2">Account</span></a></li>
                 <li href="settings.jsp" class="nav-link activites"><i
                     class='bx bx-cog'></i> <span class="mx-2">Settings</span></li>
             </ul>
     </div>
     <div class="container mt-4 card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-content">
-                    <img src="images/playlist.jpg" class="card-img" alt="Image">
-                    <div class="text-content">
-                        <h5 class="card-title">Playlist</h5>
-                        <span class="card-text">34 songs</span> <span class="card-text">12
-                            Artists</span>
-                    </div>
-                    <a href="playlist.jsp" class="btn btn-login submits">Listen</a>
-                </div>
-            </div>
-        </div>
-        <div class="card card1">
-            <div class="card-body">
-                <div class="card-content">
-                    <div class="text-content">
-                        <a href="addsongs.jsp" style="text-decoration: none;">
-                        <i class="fa-solid fa-plus"></i>
-                        <h5 class="card-title" style="margin-top: 1rem; text-align: center !important;">Add more
-                            songs</h5>
-                        </a>
-                        <span class="card-text"></span>
-                    </div>
-                </div>
-            </div>
+    <div class="search-card">
+        <div class="card-body">
+            <i class="fa fa-search"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search" />
+            <button onclick="search()" class="btn btn-primary">Search</button>
         </div>
     </div>
-    <div class="container mt-4 card-container">
-        <div class="search-card">
-            <div class="card-body">
-                <i class="fa fa-search"></i>
-                <input type="text" class="search-input" placeholder="Search" />
-            </div>
-        </div>
-    </div>
-    <div class="container mt-4 song-container">
-       <div class="">
-           <h1 class="">Songs</h1>
-       </div>
-       <% 
+</div>
+
+<div id="searchResults" class="results"></div>
+<br/>
+
+<!-- Add any necessary JavaScript files or scripts here -->
+
+<script>
+    function search() {
+        var query = document.getElementById('searchInput').value;
+        if (query.trim() === '') {
+            alert('Please enter a search query.');
+            return;
+        }
+
+        // AJAX call to the JSP page
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'search.jsp');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                document.getElementById('searchResults').innerHTML = xhr.responseText;
+            } else {
+                alert('Error fetching search results. Please try again.');
+            }
+        };
+        xhr.send('query=' + encodeURIComponent(query));
+    }
+</script>
+    
+    
+    <% 
                 try {
                     // Database Connectivity
                     Class.forName("com.mysql.cj.jdbc.Driver");
@@ -196,8 +202,8 @@
                     	} else {
                     		out.println("File not found");
                     	}
-        %>
-        <br/>
+        %>        
+        <br />
        <div class="music-card">
           <div class="play-icon">
              <audio id="audio<%= songCount %>" preload="none" controls> 
@@ -252,5 +258,6 @@
        </script>
        
     </div>
+    
 </body>
 </html>
