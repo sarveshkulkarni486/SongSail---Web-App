@@ -1,8 +1,8 @@
 # 🎵 SongSail 🎵
 
-![SongSail Logo]
-<img src="" alt="SongSail Logo" width="200" height="200">
-
+<p align="center">
+  <img src="src/main/webapp/images/SongSail.png" alt="SongSail Logo" width="200" height="200" text-align:center>
+</p>
 ## Project Description
 SongSail is a web application that allows users to log in, discover, and listen to songs (mp3 files). Users can also add their own songs to share with others, manage their personal playlists, and update their account details. The application features search functionality, session authentication, and trending song filters to enhance the user experience.
 
