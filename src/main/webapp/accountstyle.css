@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.card-title-wrapper {
+	display: inline-block !important;
+}
+.card-title {
+	margin-left: 10px;
+	display: inline-block !important;
+}
+.col {
+	margin-top: 2rem;
+	margin-left: 14em;
+}

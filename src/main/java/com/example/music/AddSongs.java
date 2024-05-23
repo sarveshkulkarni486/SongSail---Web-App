@@ -55,14 +55,14 @@ public class AddSongs extends HttpServlet {
 				InputStream inputstream = filePart.getInputStream();
 				Files.copy(inputstream, new File(uploadDirectory + File.separator + fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-				String sql = "INSERT INTO songs (songname, album, singer, lyrics, file_path) VALUES(?, ?, ?, ?, ?)";
+				String sql = "INSERT INTO songs (songname, album, singer, lyrics, file_path, email) VALUES(?, ?, ?, ?, ?, ?)";
 				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setString(1, songname);
 				ps.setString(2, album);
 				ps.setString(3, singer);
 				ps.setString(4, lyrics);
 				ps.setString(5, uploadDirectory +"//"+ fileName);
-				
+				ps.setString(6, email);
 				int rowsInserted = ps.executeUpdate(); 
 				
 				if(rowsInserted>0) {

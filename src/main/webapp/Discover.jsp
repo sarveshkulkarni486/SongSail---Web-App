@@ -18,7 +18,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Song Sail</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -56,6 +56,7 @@ padding-left: 2rem !important;
 margin-left: 9rem !important;
 }
 </style>
+
 </head>
 <body>
 <!-- top navbar -->
@@ -71,7 +72,7 @@ margin-left: 9rem !important;
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown"><a
-                        class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                        class="nav-link dropdown-toggle" href="Accounts.jsp" id="navbarDropdown"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-regular fa-user"></i> Account
                     </a>
@@ -110,10 +111,10 @@ margin-left: 9rem !important;
             <!-- i indicates box icons box-icons is library for icons -->
             <ul>
                 Menu
-                <li class="nav-link activites"><a href="SongSail.jsp"><i
-                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></a></li>
-                <li class="nav-link activites"><a href="#"><i
-                    class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span></a>
+                <li href="#" class="nav-link activites"><i
+                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></li>
+                <li href="discover.jsp" class="nav-link activites"><i
+                    class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span>
                 </li>
                 <li class="nav-link activites"><a href="Trending.jsp"><i
                     class="fa-solid fa-arrow-trend-up"></i> <span class="mx-2">Trending</span></a>
@@ -124,14 +125,16 @@ margin-left: 9rem !important;
             <!-- sidenavbar second component -->
             <ul>
                 Library
+                <li href="recent.jsp" class="nav-link activites"><i
+                    class='bx bx-history'></i> <span class="mx-2">Recent</span></li>
                 <li href="playlist.jsp" class="nav-link activites"><i
                     class='bx bxs-playlist'></i> <span class="mx-2">Playlist</span></li>
                 <li class="nav-link activites"><a href="favorites.jsp"><i
                     class="fa-regular fa-hearts"></i><span class="mx-2">Favourite</span>
                     </a>
                 </li>
-                <li class="nav-link activites"><a href="account.jsp"><i
-                    class="fa-regular fa-user"></i> <span class="mx-2">Account</span></a></li>
+                <li href="account.jsp" class="nav-link activites"><i
+                    class="fa-regular fa-user"></i> <span class="mx-2">Account</span></li>
                 <li href="settings.jsp" class="nav-link activites"><i
                     class='bx bx-cog'></i> <span class="mx-2">Settings</span></li>
             </ul>
@@ -259,5 +262,6 @@ margin-left: 9rem !important;
        
     </div>
     
+
 </body>
 </html>
