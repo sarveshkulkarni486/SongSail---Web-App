@@ -83,7 +83,7 @@ margin-left: 9rem !important;
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="settings.jsp"><i
+                            <li><a class="dropdown-item" href="Accounts.jsp"><i
                                     class="fa-solid fa-gear" style="margin-right: 0.6rem;"></i>Settings</a></li>
                         </ul></li>
                 </ul>
@@ -111,10 +111,10 @@ margin-left: 9rem !important;
             <!-- i indicates box icons box-icons is library for icons -->
             <ul>
                 Menu
-                <li href="#" class="nav-link activites"><i
-                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></li>
-                <li href="discover.jsp" class="nav-link activites"><i
-                    class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span>
+                <li class="nav-link activites"><a href="SongSail.jsp"><i
+                    class='bx bxs-dashboard'></i> <span class="mx-2">Home</span></a></li>
+                <li class="nav-link activites"><a href="Discover.jsp"><i
+                    class="fa-regular fa-paper-plane"></i> <span class="mx-2">Discover</span></a>
                 </li>
                 <li class="nav-link activites"><a href="Trending.jsp"><i
                     class="fa-solid fa-arrow-trend-up"></i> <span class="mx-2">Trending</span></a>
@@ -125,18 +125,16 @@ margin-left: 9rem !important;
             <!-- sidenavbar second component -->
             <ul>
                 Library
-                <li href="recent.jsp" class="nav-link activites"><i
-                    class='bx bx-history'></i> <span class="mx-2">Recent</span></li>
-                <li href="playlist.jsp" class="nav-link activites"><i
-                    class='bx bxs-playlist'></i> <span class="mx-2">Playlist</span></li>
+                <li class="nav-link activites"><a href="Trending.jsp"><i
+                    class='bx bx-history'></i> <span class="mx-2">Recent</span></a></li>
                 <li class="nav-link activites"><a href="favorites.jsp"><i
-                    class="fa-regular fa-hearts"></i><span class="mx-2">Favourite</span>
+                    class="fa-regular fa-hearts"></i><span class="mx-2">Favorite</span>
                     </a>
                 </li>
-                <li href="account.jsp" class="nav-link activites"><i
-                    class="fa-regular fa-user"></i> <span class="mx-2">Account</span></li>
-                <li href="settings.jsp" class="nav-link activites"><i
-                    class='bx bx-cog'></i> <span class="mx-2">Settings</span></li>
+                <li class="nav-link activites"><a href="Accounts.jsp"><i
+                    class="fa-regular fa-user"></i> <span class="mx-2">Account</span></a></li>
+                <li class="nav-link activites"><a href="Accounts.jsp"><i
+                    class='bx bx-cog'></i> <span class="mx-2">Settings</span></a></li>
             </ul>
     </div>
     <div class="container mt-4 card-container">

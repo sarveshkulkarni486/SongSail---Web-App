@@ -74,7 +74,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="settings.jsp"><i
+                            <li><a class="dropdown-item" href="Accounts.jsp"><i
                                     class="fa-solid fa-gear" style="margin-right: 0.6rem;"></i>Settings</a></li>
                         </ul></li>
                 </ul>
@@ -116,16 +116,16 @@
             <!-- sidenavbar second component -->
             <ul>
                 Library
-                <li href="playlist.jsp" class="nav-link activites"><i
-                    class='bx bxs-playlist'></i> <span class="mx-2">Playlist</span></li>
+                <li class="nav-link activites"><a href="Trending.jsp"><i
+                    class='bx bxs-history'></i> <span class="mx-2">Recent</span></a></li>
                 <li class="nav-link activites"><a href="favorites.jsp"><i
-                    class="fa-regular fa-hearts"></i><span class="mx-2">Favourite</span>
+                    class="fa-regular fa-hearts"></i><span class="mx-2">Favorite</span>
                     </a>
                 </li>
                 <li class="nav-link activites"><a href="Account.jsp"><i
                     class="fa-regular fa-user"></i> <span class="mx-2">Account</span></a></li>
-                <li href="settings.jsp" class="nav-link activites"><i
-                    class='bx bx-cog'></i> <span class="mx-2">Settings</span></li>
+                <li class="nav-link activites"><a href="Accounts.jsp"><i
+                    class='bx bx-cog'></i> <span class="mx-2">Settings</span></a></li>
             </ul>
     </div>
     <div class="container mt-4 card-container">
